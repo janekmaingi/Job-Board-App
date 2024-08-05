@@ -1,7 +1,14 @@
+"use server";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { createCompany } from "../actions/workosActions";
 import { getUser } from "@workos-inc/authkit-nextjs";
 import { WorkOS } from "@workos-inc/node";
+import Link from "next/link";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 export default async function NewListingPage() {
+  const workos = new WorkOS(process.env.WORKOS_API_KEY);
+
   const { user } = await getUser();
 
   if (!user) {
@@ -11,52 +18,46 @@ export default async function NewListingPage() {
       </div>
     );
   }
-  const workos = new WorkOS(process.env.WORKOS_API_KEY);
-
-  null;
 
   const organizationMemberships =
     await workos.userManagement.listOrganizationMemberships({
       userId: user.id,
     });
 
+  const activeOrganizationMemberships = organizationMemberships.data.filter(
+    (om) => om.status === "active"
+  );
+  const organizationsNames: { [key: string]: string } = {};
+  for (const activeMembership of activeOrganizationMemberships) {
+    const organization = await workos.organizations.getOrganization(
+      activeMembership.organizationId
+    );
+  }
   return (
     <div className="container">
       <div>
-        {JSON.stringify(organizationMemberships)}
         <h2 className="text-lg mt-6">Your companies</h2>
         <p className="text-gray-500 text-sm mb-2">
           Select a company to post a job for
         </p>
-        <div className="border border-blue-200 bg-blue-50 p-4 rounded-md">
-          No companies found assigned to your user
-        </div>
+        {organizationMemberships.data
+          .filter((om) => om.status === "active")
+          .map((om) => (
+            <div></div>
+          ))}
 
-        <h2 className="text-lg mt-4">Create a new company</h2>
-        <p className="text-gray-500 text-sm mb-2">
-          To create a job listing your first register a company
-        </p>
-
-        <form
-          action={() => {
-            "use server";
-            workos.organizations.createOrganization({ name: "test" });
-          }}
-          className="flex gap-2"
+        {organizationMemberships.data.length === 0 && (
+          <div className="border border-blue-200 bg-blue-50 p-4 rounded-md">
+            No companies found assigned to your user
+          </div>
+        )}
+        <Link
+          className="inline-flex gap-2 bg-gray-200 px-4 py-2 rounded-md mt-6"
+          href={"/new-company"}
         >
-          <input
-            className="p-2 border border-gray-400 rounded-md"
-            type="text"
-            placeholder="company name"
-          />
-
-          <button
-            type="submit"
-            className="flex gap-2 items-center bg-gray-200 px-4 py-2 rounded-md"
-          >
-            Create a company
-          </button>
-        </form>
+          Create a new company
+          <FontAwesomeIcon className="h-4" icon={faArrowRight} />
+        </Link>
       </div>
     </div>
   );
