@@ -32,6 +32,7 @@ export default async function NewListingPage() {
     const organization = await workos.organizations.getOrganization(
       activeMembership.organizationId
     );
+    organizationsNames[organization.id] = organization.name;
   }
   return (
     <div className="container">
@@ -40,11 +41,24 @@ export default async function NewListingPage() {
         <p className="text-gray-500 text-sm mb-2">
           Select a company to post a job for
         </p>
-        {organizationMemberships.data
-          .filter((om) => om.status === "active")
-          .map((om) => (
-            <div></div>
-          ))}
+        <div>
+          <div className="border inline-block rounded-md">
+            {Object.keys(organizationsNames).map((orgId) => (
+              <Link
+                href={"/new-listing/" + orgId}
+                className={
+                  "py-2 px-4 flex gap-2 items-center " +
+                  (Object.keys(organizationsNames)[0] === orgId
+                    ? ""
+                    : "border-t")
+                }
+              >
+                {organizationsNames[orgId]}
+                <FontAwesomeIcon className="h-4" icon={faArrowRight} />
+              </Link>
+            ))}
+          </div>
+        </div>
 
         {organizationMemberships.data.length === 0 && (
           <div className="border border-blue-200 bg-blue-50 p-4 rounded-md">
@@ -52,7 +66,7 @@ export default async function NewListingPage() {
           </div>
         )}
         <Link
-          className="inline-flex gap-2 bg-gray-200 px-4 py-2 rounded-md mt-6"
+          className="inline-flex gap-2 bg-gray-200 px-4 py-2 rounded-md mt-6 items-center"
           href={"/new-company"}
         >
           Create a new company
