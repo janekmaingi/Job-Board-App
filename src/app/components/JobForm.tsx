@@ -21,6 +21,7 @@ import {
   StateSelect,
 } from "react-country-state-city";
 import "react-country-state-city/dist/react-country-state-city.css";
+import ImageUpload from "./ImageUpload";
 
 export default function JobForm() {
   const [countryid, setCountryid] = useState(0);
@@ -88,23 +89,13 @@ export default function JobForm() {
           <div className="flex">
             <div className="w-1/3">
               <h3>Job icon</h3>
-              <div className="bg-gray-100 rounded-md size-24 inline-flex items-center content-center justify-center">
-                <FontAwesomeIcon icon={faStar} className="text-gray-400" />
-              </div>
-              <div className="mt-2">
-                <Button>select file</Button>
-              </div>
+              <ImageUpload icon={faStar} />
             </div>
-            <div className="grow flex flex-col gap-1">
+            <div className="grow">
               <h3>Contact person</h3>
               <div className="flex gap-2">
                 <div className="">
-                  <div className="bg-gray-100 rounded-md size-24 inline-flex items-center content-center justify-center">
-                    <FontAwesomeIcon icon={faUser} className="text-gray-400" />
-                  </div>
-                  <div className="mt-2">
-                    <Button>select file</Button>
-                  </div>
+                  <ImageUpload icon={faUser} />
                 </div>
                 <div className="grow">
                   <TextField.Root placeholder="Jane Doe">
