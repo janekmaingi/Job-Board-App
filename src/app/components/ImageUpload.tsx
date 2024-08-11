@@ -16,7 +16,8 @@ export default function ImageUpload({ icon }: { icon: IconDefinition }) {
       const data = new FormData();
       data.set("file", file);
       const response = await axios.post("/api/upload", data);
-      console.log(response);
+      if (response.data.url) {
+      }
     }
   }
   return (
