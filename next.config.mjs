@@ -4,7 +4,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "job-board-app.s3.amazon.com",
+        hostname: "job-board-app.s3.amazonaws.com",
       },
     ],
   },
