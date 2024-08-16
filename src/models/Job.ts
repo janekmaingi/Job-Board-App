@@ -9,6 +9,7 @@ const JobSchema = new Schema({
   state: { type: String, required: true },
   city: { type: String, required: true },
   jobIcon: { type: String },
+  orgId: { type: String, required: true },
   contactPerson: new Schema({
     photo: { type: String },
     name: { type: String, required: true },

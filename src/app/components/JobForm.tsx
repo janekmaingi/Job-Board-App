@@ -20,10 +20,11 @@ import {
   CountrySelect,
   StateSelect,
 } from "react-country-state-city";
-import "react-country-state-city/dist/react-country-state-city.css";
 import ImageUpload from "./ImageUpload";
+import { redirect } from "next/navigation";
+import { saveJobAction } from "../actions/jobActions";
 
-export default function JobForm() {
+export default function JobForm({ orgId }: { orgId: string }) {
   const [countryId, setCountryId] = useState(0);
   const [stateId, setstateId] = useState(0);
   const [, setCityId] = useState(0);
@@ -31,17 +32,22 @@ export default function JobForm() {
   const [stateName, setStateName] = useState("");
   const [cityName, setCityName] = useState("");
 
-  function saveJob(data: FormData) {
-    "use server";
+  async function handleSaveJob(data: FormData) {
     data.set("country", countryName.toString());
     data.set("state", stateName.toString());
     data.set("city", cityName.toString());
+    data.set("orgId", orgId);
+    const jobDoc = await saveJobAction(data);
+    redirect(`/jobs/${jobDoc.orgId}`);
   }
 
   return (
     <>
       <Theme>
-        <form action={saveJob} className="container mt-6 flex flex-col gap-4">
+        <form
+          action={handleSaveJob}
+          className="container mt-6 flex flex-col gap-4"
+        >
           <TextField.Root name="title" placeholder="Job title" />
 
           <div className="grid grid-cols-3 gap-6 *:grow">

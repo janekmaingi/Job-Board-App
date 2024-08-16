@@ -2,6 +2,7 @@ import { getUser } from "@workos-inc/authkit-nextjs";
 import { WorkOS } from "@workos-inc/node";
 import "@radix-ui/themes/styles.css";
 import JobForm from "@/app/components/JobForm";
+import "react-country-state-city/dist/react-country-state-city.css";
 
 type PageProps = {
   params: {
@@ -26,5 +27,5 @@ export default async function NewListingForOrgPage(props: PageProps) {
     return "no access";
   }
 
-  return <JobForm />;
+  return <JobForm orgId={orgId} />;
 }
