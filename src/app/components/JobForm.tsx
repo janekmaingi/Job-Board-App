@@ -116,23 +116,31 @@ export default function JobForm({ orgId }: { orgId: string }) {
               <div className="flex gap-2">
                 <div className="">
                   <ImageUpload
-                    name="personPhoto"
+                    name="contactPhoto"
                     icon={faUser}
                     defaultValue={""}
                   />
                 </div>
                 <div className="grow">
-                  <TextField.Root placeholder="Jane Doe" name="name">
+                  <TextField.Root placeholder="Jane Doe" name="contactName">
                     <TextField.Slot>
                       <FontAwesomeIcon icon={faUser} />
                     </TextField.Slot>
                   </TextField.Root>
-                  <TextField.Root placeholder="Phone" type="tel" name="phone">
+                  <TextField.Root
+                    placeholder="Phone"
+                    type="tel"
+                    name="contactPhone"
+                  >
                     <TextField.Slot>
                       <FontAwesomeIcon icon={faPhone} />
                     </TextField.Slot>
                   </TextField.Root>
-                  <TextField.Root placeholder="Email" type="email" name="email">
+                  <TextField.Root
+                    placeholder="Email"
+                    type="email"
+                    name="contactEmail"
+                  >
                     <TextField.Slot>
                       <FontAwesomeIcon icon={faEnvelope} />
                     </TextField.Slot>
