@@ -1,5 +1,7 @@
 import Jobs from "@/app/components/Jobs";
+import { JobModel } from "@/models/Job";
 import { WorkOS } from "@workos-inc/node";
+import mongoose from "mongoose";
 
 type PageProps = {
   params: {
@@ -10,12 +12,14 @@ type PageProps = {
 export default async function CompanyJobsPage(props: PageProps) {
   const workos = new WorkOS(process.env.WORKOS_API_KEY);
   const org = await workos.organizations.getOrganization(props.params.orgId);
+  await mongoose.connect(process.env.MONGO_URI as string);
+  const jobsDocs = await JobModel.find({ orgId: org.id });
   return (
     <div>
       <div className="container">
         <h1 className="text-xl my-6">{org.name} Jobs</h1>
       </div>
-      <Jobs header={"Jobs posted by " + org.name} />
+      <Jobs jobs={jobsDocs} header={"Jobs posted by " + org.name} />
     </div>
   );
 }
