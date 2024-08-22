@@ -19,7 +19,7 @@ export default function JobRow({ jobDoc }: { jobDoc: Job }) {
           </div>
           <div className="grow flex md:flex">
             <div className="grow">
-              <div className="text-gray-500 textsm">Spotify</div>
+              <div className="text-gray-500 textsm">{jobDoc.orgName}</div>
               <div className="font-bold text-lg mb-1">{jobDoc.title}</div>
               <div className="text-gray-400 text-sm">
                 Remote &middot; New York, US &middot; Full-time
