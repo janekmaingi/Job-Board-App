@@ -1,6 +1,9 @@
+"use client";
+
 import type { Job } from "@/models/Job";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import TimeAgo from "react-timeago";
 
 export default function JobRow({ jobDoc }: { jobDoc: Job }) {
   return (
@@ -25,7 +28,11 @@ export default function JobRow({ jobDoc }: { jobDoc: Job }) {
                 Remote &middot; New York, US &middot; Full-time
               </div>
             </div>
-            <div className="content-end text-gray-500 text-xs">2 weeks ago</div>
+            {jobDoc.createdAt && (
+              <div className="content-end text-gray-500 text-xs">
+                <TimeAgo date={jobDoc.createdAt} />
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -22,7 +22,10 @@ export default async function Header() {
         </Link>
         <nav className="flex gap-2">
           {!user && (
-            <Link href={signInUrl} className="py-2 px-4 rounded-md bg-gray-200">
+            <Link
+              href={signInUrl}
+              className="py-1 px-2 sm:py-2 sm:px-4 rounded-md bg-gray-200"
+            >
               Login
             </Link>
           )}
@@ -33,10 +36,9 @@ export default async function Header() {
                 await signOut();
               }}
             >
-              {" "}
               <button
                 type="submit"
-                className="bg-gray-200 py-2 px-4 rounded-md"
+                className="bg-gray-200 py-1 px-2 sm:py-2 sm:px-4 rounded-md"
               >
                 Logout
               </button>
@@ -44,7 +46,7 @@ export default async function Header() {
           )}
           <Link
             href={"/new-listing"}
-            className="py-2 px-4 rounded-md bg-blue-600 text-white"
+            className="py-1 px-2 sm:py-2 sm:px-4 rounded-md bg-blue-600 text-white"
           >
             Post a Job
           </Link>

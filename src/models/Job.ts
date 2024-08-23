@@ -18,6 +18,8 @@ export type Job = {
   contactPhone: string;
   contactEmail: string;
   orgId: string;
+  createdAt: string;
+  updatedAt: string;
 };
 
 const JobSchema = new Schema(
