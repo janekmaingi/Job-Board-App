@@ -1,9 +1,12 @@
 import Jobs from "@/app/components/Jobs";
 import { JobModel } from "@/models/Job";
 import { getUser } from "@workos-inc/authkit-nextjs";
-import { WorkOS } from "@workos-inc/node";
+import {
+  AutoPaginatable,
+  OrganizationMembership,
+  WorkOS,
+} from "@workos-inc/node";
 import mongoose from "mongoose";
-import { Overlock_SC } from "next/font/google";
 
 type PageProps = {
   params: {
@@ -19,7 +22,7 @@ export default async function CompanyJobsPage(props: PageProps) {
   const jobsDocs = JSON.parse(
     JSON.stringify(await JobModel.find({ orgId: org.id }))
   );
-  let oms = null;
+  let oms: AutoPaginatable<OrganizationMembership> | null = null;
   if (user) {
     oms = await workos.userManagement.listOrganizationMemberships({
       userId: user.id,
@@ -29,6 +32,9 @@ export default async function CompanyJobsPage(props: PageProps) {
   for (const job of jobsDocs) {
     const org = await workos.organizations.getOrganization(job.orgId);
     job.orgName = org.name;
+    if (oms && oms.data.length > 0) {
+      job.isAdmin = !!oms.data.find((om) => om.organizationId === job.orgId);
+    }
   }
 
   return (

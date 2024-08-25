@@ -20,6 +20,7 @@ export type Job = {
   orgId: string;
   createdAt: string;
   updatedAt: string;
+  isAdmin?: boolean;
 };
 
 const JobSchema = new Schema(
