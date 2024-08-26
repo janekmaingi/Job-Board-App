@@ -23,8 +23,15 @@ import {
 import ImageUpload from "./ImageUpload";
 import { redirect } from "next/navigation";
 import { saveJobAction } from "../actions/jobActions";
+import type { Job } from "@/models/Job";
 
-export default function JobForm({ orgId }: { orgId: string }) {
+export default function JobForm({
+  orgId,
+  jobDoc,
+}: {
+  orgId: string;
+  jobDoc?: Job;
+}) {
   const [countryId, setCountryId] = useState(0);
   const [stateId, setstateId] = useState(0);
   const [, setCityId] = useState(0);

@@ -1,3 +1,4 @@
+import JobForm from "@/app/components/JobForm";
 import { JobModel } from "@/models/Job";
 import { getUser } from "@workos-inc/authkit-nextjs";
 import { WorkOS } from "@workos-inc/node";
@@ -12,7 +13,10 @@ type PageProps = {
 export default async function EditJobPage(pageProps: PageProps) {
   const jobId = pageProps.params.jobId;
   await mongoose.connect(process.env.MONGO_URI as string);
-  const jobDoc = await JobModel.findById(jobId);
+  const jobDoc = JSON.parse(JSON.stringify(await JobModel.findById(jobId)));
+  if (!jobDoc) {
+    return "Not found";
+  }
   const { user } = await getUser();
   const workos = new WorkOS(process.env.WORKOS_API_KEY);
 
@@ -23,5 +27,12 @@ export default async function EditJobPage(pageProps: PageProps) {
     userId: user.id,
     organizationId: jobDoc.orgId,
   });
-  return <div>{jobId}</div>;
+  if (oms.data.length === 0) {
+    return "Access denied";
+  }
+  return (
+    <div>
+      <JobForm orgId={jobDoc.orgId} jobDoc={jobDoc} />
+    </div>
+  );
 }
