@@ -55,12 +55,20 @@ export default function JobForm({
           action={handleSaveJob}
           className="container mt-6 flex flex-col gap-4"
         >
-          <TextField.Root name="title" placeholder="Job title" />
+          {jobDoc && <input type="hidden" name="id" value={jobDoc?._id} />}
+          <TextField.Root
+            name="title"
+            placeholder="Job title"
+            defaultValue={jobDoc?.title || ""}
+          />
 
           <div className="grid sm:grid-cols-3 gap-6 *:grow">
             <div>
               Remote?
-              <RadioGroup.Root defaultValue="hybrid" name="remote">
+              <RadioGroup.Root
+                defaultValue={jobDoc?.remote || "hybrid"}
+                name="remote"
+              >
                 <RadioGroup.Item value="onsite">On-site</RadioGroup.Item>
                 <RadioGroup.Item value="hybrid">Hybrid-remote</RadioGroup.Item>
                 <RadioGroup.Item value="remote">Fully remotes</RadioGroup.Item>
@@ -68,7 +76,10 @@ export default function JobForm({
             </div>
             <div>
               Full time?
-              <RadioGroup.Root defaultValue="full" name="type">
+              <RadioGroup.Root
+                defaultValue={jobDoc?.type || "full"}
+                name="type"
+              >
                 <RadioGroup.Item value="project">Project</RadioGroup.Item>
                 <RadioGroup.Item value="part">Part-time</RadioGroup.Item>
                 <RadioGroup.Item value="full">Full-time</RadioGroup.Item>
@@ -76,7 +87,7 @@ export default function JobForm({
             </div>
             <div>
               Salary
-              <TextField.Root name="salary">
+              <TextField.Root name="salary" defaultValue={jobDoc?.salary || ""}>
                 <TextField.Slot>$</TextField.Slot>
                 <TextField.Slot>k/year</TextField.Slot>
               </TextField.Root>
@@ -116,7 +127,11 @@ export default function JobForm({
           <div className="sm:flex">
             <div className="w-1/3">
               <h3>Job icon</h3>
-              <ImageUpload name="JobIcon" icon={faStar} defaultValue={""} />
+              <ImageUpload
+                name="JobIcon"
+                icon={faStar}
+                defaultValue={jobDoc?.jobIcon}
+              />
             </div>
             <div className="grow">
               <h3>Contact person</h3>
@@ -131,7 +146,10 @@ export default function JobForm({
                 <div className="grow">
                   <TextField.Root placeholder="Jane Doe" name="contactName">
                     <TextField.Slot>
-                      <FontAwesomeIcon icon={faUser} />
+                      <FontAwesomeIcon
+                        icon={faUser}
+                        defaultValue={jobDoc?.contactPhoto}
+                      />
                     </TextField.Slot>
                   </TextField.Root>
                   <TextField.Root
